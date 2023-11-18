@@ -40,4 +40,9 @@ public class BatataController : MonoBehaviour
             }
         }
     }
+
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
 }
