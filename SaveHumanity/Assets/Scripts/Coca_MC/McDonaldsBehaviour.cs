@@ -6,7 +6,7 @@ using UnityEngine;
 public class McDonaldsBehaviour : MonoBehaviour
 {
     //Geral
-    private float IntervaloMinimo = 4f, IntervaloMaximo = 5f, UltimoAtaque = 0f;
+    private float IntervaloMinimo = 4f, IntervaloMaximo = 5f, UltimoAtaque;
     private int Ataque = 0;
     public GameObject BatataPrefab, NuggetPrefab, HamburguerPrefab, Player;
 
@@ -23,7 +23,8 @@ public class McDonaldsBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UltimoAtaque = Time.time + IntervaloMaximo;
+        UltimoAtaque = Time.time + Random.Range(IntervaloMinimo, IntervaloMaximo);
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -41,8 +42,6 @@ public class McDonaldsBehaviour : MonoBehaviour
             if (IntervaloMaximo < 3)
                 IntervaloMaximo = 3f;
         }
-
-        Debug.Log(IntervaloMinimo + " " + IntervaloMaximo);
 
         switch (Ataque)
         {
@@ -153,5 +152,13 @@ public class McDonaldsBehaviour : MonoBehaviour
 
         GameObject instancia = Instantiate(HamburguerPrefab);
         instancia.GetComponent<HamburguerController>().Ativar(SpawnerAtual.transform);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Player>().ReceberDano(2);
+        }
     }
 }

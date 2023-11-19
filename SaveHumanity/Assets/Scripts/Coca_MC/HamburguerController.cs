@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HamburguerController : MonoBehaviour
 {
-    private float Espera = 1f, Inicio = 0f, Velocidade = 20f;
+    private float Espera = 1f, Inicio = 0f, Velocidade = 20f, Calorias = 0.1f;
 
     public void Ativar(Transform origem)
     {
@@ -18,6 +18,15 @@ public class HamburguerController : MonoBehaviour
         if(Inicio + Espera <= Time.time)
         {
             transform.position += transform.right * Velocidade * Time.deltaTime;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            collision.GetComponent<Player>().Engordar(Calorias);
+            Destroy(gameObject);
         }
     }
 

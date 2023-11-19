@@ -60,7 +60,10 @@ public class Player : MonoBehaviour
             rig.velocity = Vector2.zero;
             rig.gravityScale = 0;
         }
-            
+        if(life <= 0f)
+        {
+            Debug.Break();
+        }
     }
 
     #endregion
@@ -143,6 +146,22 @@ public class Player : MonoBehaviour
         {
             isJumping = true;
         }
+    }
+
+    #endregion
+    #region "Status"
+
+    public void Engordar(float calorias)
+    {
+        transform.localScale += new Vector3(calorias, 0, 0);
+        speedPercentage -= calorias;
+        dashForce -= calorias * 20;
+        life--;
+    }
+
+    public void ReceberDano(float dano)
+    {
+        life -= dano;
     }
 
     #endregion
