@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(isPaused);
         if (Input.GetKeyDown(KeyCode.LeftShift))
             SetGamePause(!isPaused);
     }
@@ -36,6 +37,11 @@ public class GameManager : MonoBehaviour
     public void SetGamePause(bool pause)
     {
         isPaused = pause;
+
+        if (pause)
+            Time.timeScale = 0f;
+        else
+            Time.timeScale = 1f;
     }
 
     #endregion
