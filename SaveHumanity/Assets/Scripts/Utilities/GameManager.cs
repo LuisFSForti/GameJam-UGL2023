@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(isPaused);
         if (Input.GetKeyDown(KeyCode.LeftShift))
             SetGamePause(!isPaused);
     }

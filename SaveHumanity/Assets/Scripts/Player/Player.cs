@@ -17,15 +17,24 @@ public class Player : MonoBehaviour
     private int qtdeJump = 0;
 
     [Header("Dash Properties")]
-    [SerializeField] private float dashForce = 24f;
-    [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float dashCoolDown = 1f;
     private bool canDash = true;
     private bool isDashing = false;
+    [SerializeField] private float dashForce = 24f;
+    [SerializeField] private float dashCoolDown = 1f;
+    [SerializeField] private float dashDuration = 0.2f;
+
+    [Header("Bounce Effect")]
+    [SerializeField] private float bounceFactor;
 
     [Header("Player Status")]
-    [SerializeField] private float life; 
+    [SerializeField] private float fullLife; 
+    [SerializeField] private float currentLife; 
     [SerializeField] private float speedPercentage = 1f;
+
+    [Header("Shot Properties")]
+    [SerializeField] private bool canShoot = true;
+    [SerializeField] private float coolDown = 0.5f;
+    [SerializeField] private GameObject shotPrefab;
 
 
     [Header("Components")]
@@ -33,14 +42,17 @@ public class Player : MonoBehaviour
     private Rigidbody2D rig;
     //private TrailRenderer tr;
 
+    
     #region "INITIAL SETTINGS / UPDATE"
 
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         originalGravity = rig.gravityScale;
-    }
 
+        currentLife = fullLife;
+    }
+    
     private void Update()
     {
         if (!GameManager.instance.isPaused)
@@ -54,13 +66,17 @@ public class Player : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Z) && (canDash || !isJumping))
                 StartCoroutine(Dash());
+
+            if (Input.GetKeyDown(KeyCode.X) && (canShoot))
+                StartCoroutine(Shot());
         }
         else
         {
             rig.velocity = Vector2.zero;
             rig.gravityScale = 0;
         }
-        if(life <= 0f)
+        
+        if(currentLife <= 0f)
         {
             Debug.Break();
         }
@@ -78,7 +94,7 @@ public class Player : MonoBehaviour
     }
 
     #endregion
-
+    
     #region "JUMP"
 
     private void Jump()
@@ -87,19 +103,13 @@ public class Player : MonoBehaviour
         {
             rig.velocity = new Vector2(0, jumpStrength);
             qtdeJump++;
-
-            /*
-            if (qtdeJump > 1)
-            {
-                anim.SetBool("DoubleJump", true);
-            }*/
         }
 
     }
 
     #endregion
-
-    #region "Dash"
+    
+    #region "DASH "
 
     private IEnumerator Dash()
     {
@@ -110,10 +120,7 @@ public class Player : MonoBehaviour
         isDashing = true;
         rig.gravityScale = 0;
 
-        if (rig.velocity.x > 0)
-            direction = 1;
-        else
-            direction = -1;
+        direction = rig.velocity.x < 0 ? -1 : 1;
 
         rig.velocity = new Vector2(direction * dashForce, rig.velocity.y);
         //tr.emitting = true;
@@ -127,7 +134,7 @@ public class Player : MonoBehaviour
     }
 
     #endregion
-
+    
     #region "COLLISIONS"
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -137,6 +144,17 @@ public class Player : MonoBehaviour
             qtdeJump = 0;
             isJumping = false;
             //anim.SetBool("DoubleJump", false);
+        }
+        else if(collision.gameObject.CompareTag("Enemy"))
+        {
+            //ADD BOUNCE
+
+            float dirX = collision.GetContact(0).point.x - transform.position.x;
+            float dirY = collision.GetContact(0).point.y - transform.position.y;
+
+            Vector2 dir = -new Vector2(dirX, dirY).normalized;
+
+            rig.AddForce(dir * bounceFactor, ForceMode2D.Impulse);
         }
     }
 
@@ -149,20 +167,51 @@ public class Player : MonoBehaviour
     }
 
     #endregion
-    #region "Status"
 
+    #region "STATUS"
+    
     public void Engordar(float calorias)
     {
         transform.localScale += new Vector3(calorias, 0, 0);
         speedPercentage -= calorias;
         dashForce -= calorias * 20;
-        life--;
+        currentLife--;
     }
-
+    
     public void ReceberDano(float dano)
     {
-        life -= dano;
+        currentLife -= dano;
+    }
+  
+    public void ChangeSpeed(float speedFactor)
+    {
+        speedPercentage = speedFactor;
+    }
+    public void RestoreStatus()
+    {
+        currentLife = fullLife;
+        speedPercentage = 1f;
     }
 
     #endregion
+
+    #region "SHOT"
+
+    private IEnumerator Shot()
+    {
+        canShoot = false;
+
+        GameObject shot = Instantiate(shotPrefab);
+        shot.transform.position = transform.position;
+
+        int dir = rig.velocity.x < 0 ? -1 : 1;
+        shot.GetComponent<FireBall>().direction = dir;
+
+        yield return new WaitForSeconds(coolDown);
+
+        canShoot = true;
+    }
+
+    #endregion
+
 }
