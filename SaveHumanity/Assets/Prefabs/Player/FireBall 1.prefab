@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  damage: 10
+  damage: 1
   direction: 1
 --- !u!58 &4447873395964176542
 CircleCollider2D:

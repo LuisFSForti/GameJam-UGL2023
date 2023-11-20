@@ -31,9 +31,21 @@ public class FireBall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Player")
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Destroy(collision.gameObject);
             Destroy(gameObject);
+        }
+
+        if(collision.gameObject.tag == "Boss")
+        {
+            collision.gameObject.GetComponent<BossVidaController>().SofrerDano(damage);
+            Destroy(gameObject);
+        }
     }
 
-
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
 }

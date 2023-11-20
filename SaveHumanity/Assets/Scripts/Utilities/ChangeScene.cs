@@ -12,9 +12,22 @@ public class ChangeScene : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            SceneManager.LoadScene("Boss_Coca_MC");
-            Player.transform.position = Vector3.zero;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-            
+
+        SceneManager.activeSceneChanged += ChangedActiveScene;
+    }
+
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        if(next.buildIndex % 2 == 0 || next.buildIndex == 1)
+        {
+            Player.SetActive(false);
+        }
+        else
+        {
+            Player.SetActive(true);
+        }
+        Player.transform.position = Vector3.zero;
     }
 }

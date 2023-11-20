@@ -23,10 +23,6 @@ public class CocaController : MonoBehaviour
             Desacelerando -= 5f * Time.deltaTime;
         }
 
-        Debug.Log(Desacelerando);
-        Debug.Log(5f * Time.deltaTime);
-
-
         if (transform.position.y < -(6 + transform.localScale.y / 2f))
             Destroy(gameObject);
     }
