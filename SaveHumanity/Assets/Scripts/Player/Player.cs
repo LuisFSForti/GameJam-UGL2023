@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
 
     [Header("Components")]
     //private Animator anim;
+    private SpriteRenderer sprite;
     private Rigidbody2D rig;
     //private TrailRenderer tr;
 
@@ -48,8 +49,9 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
-        originalGravity = rig.gravityScale;
+        sprite = GetComponent<SpriteRenderer>();
 
+        originalGravity = rig.gravityScale;
         currentLife = fullLife;
     }
     
@@ -89,6 +91,11 @@ public class Player : MonoBehaviour
     private void Move()
     {
         float dirX = Input.GetAxisRaw("Horizontal");
+       
+        if (dirX > 0)
+            sprite.flipX = false;
+        else if (dirX < 0)
+            sprite.flipX = true;
 
         rig.velocity = new Vector2(dirX * velocity * speedPercentage, rig.velocity.y);
     }
@@ -109,19 +116,17 @@ public class Player : MonoBehaviour
 
     #endregion
     
-    #region "DASH "
+    #region "DASH AND DASH"
 
     private IEnumerator Dash()
     {
         float direction;
-        //float originalGravity = rig.gravityScale;
 
         canDash = false;
         isDashing = true;
         rig.gravityScale = 0;
 
-        direction = rig.velocity.x < 0 ? -1 : 1;
-
+        direction = sprite.flipX ? -1 : 1;
         rig.velocity = new Vector2(direction * dashForce, rig.velocity.y);
         //tr.emitting = true;
 
@@ -131,6 +136,19 @@ public class Player : MonoBehaviour
         isDashing = false;
         yield return new WaitForSeconds(dashCoolDown);
         canDash = true;
+    }
+
+    private IEnumerator Bounce(Vector2 dir)
+    {
+        isDashing = true;
+        rig.gravityScale = 0;
+
+        rig.velocity = new Vector2(dir.x * bounceFactor, dir.y * bounceFactor);
+
+        yield return new WaitForSeconds(0.5f);
+
+        rig.gravityScale = originalGravity;
+        isDashing = false;
     }
 
     #endregion
@@ -152,9 +170,12 @@ public class Player : MonoBehaviour
             float dirX = collision.GetContact(0).point.x - transform.position.x;
             float dirY = collision.GetContact(0).point.y - transform.position.y;
 
-            Vector2 dir = -new Vector2(dirX, dirY).normalized;
+            Vector2 dir = - new Vector2(dirX, dirY).normalized;
 
-            rig.AddForce(dir * bounceFactor, ForceMode2D.Impulse);
+            StartCoroutine(Bounce(dir));
+
+
+            //rig.AddForce(dir * bounceFactor, ForceMode2D.Impulse);
         }
     }
 
@@ -204,7 +225,7 @@ public class Player : MonoBehaviour
         GameObject shot = Instantiate(shotPrefab);
         shot.transform.position = transform.position;
 
-        int dir = rig.velocity.x < 0 ? -1 : 1;
+        int dir = sprite.flipX ? -1 : 1;
         shot.GetComponent<FireBall>().direction = dir;
 
         yield return new WaitForSeconds(coolDown);
