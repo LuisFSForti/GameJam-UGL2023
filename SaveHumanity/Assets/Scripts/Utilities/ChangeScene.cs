@@ -13,32 +13,43 @@ public class ChangeScene : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            AvancarCena();
         }
 
         if(Chefao)
         {
-            if(GameObject.FindGameObjectsWithTag("Boss").Length == 0)
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            if (GameObject.FindGameObjectsWithTag("Boss").Length == 0)
+                AvancarCena();
         }
 
         SceneManager.activeSceneChanged += ChangedActiveScene;
     }
 
+    public void AvancarCena()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     private void ChangedActiveScene(Scene current, Scene next)
     {
-        if(next.buildIndex % 2 == 0 || next.buildIndex == 1)
+        if(next.buildIndex % 2 == 1 || next.buildIndex == 2)
         {
-            Player.SetActive(false);
-            Canvas.SetActive(false);
+            if(Player != null) {
+                Player.SetActive(false);
+                Canvas.SetActive(false);
+            }
             Chefao = false;
         }
         else
         {
-            Player.SetActive(true);
-            Canvas.SetActive(true);
+            if (Player != null)
+            {
+                Player.SetActive(true);
+                Canvas.SetActive(true);
+            }
             Chefao = true;
         }
-        Player.transform.position = Vector3.zero;
+        if (Player != null)
+            Player.transform.position = Vector3.zero;
     }
 }

@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Z) && (canDash || !isJumping))
                 StartCoroutine(Dash());
 
-            if (Input.GetKeyDown(KeyCode.X) && (canShoot))
+            if (Input.GetKey(KeyCode.X) && (canShoot))
                 StartCoroutine(Shot());
         }
         else
