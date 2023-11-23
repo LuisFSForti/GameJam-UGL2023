@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossVidaController : MonoBehaviour
 {
-    [SerializeField] private float Vida, Regeneracao;
+    [SerializeField] private float VidaMax, Vida, Regeneracao;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,12 @@ public class BossVidaController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        Vida += Regeneracao * Time.deltaTime;
+        if(Vida > VidaMax)
+        {
+            Vida = VidaMax;
+        }
+        else
+            Vida += Regeneracao * Time.deltaTime;
     }
 
     public void SofrerDano(float dano)

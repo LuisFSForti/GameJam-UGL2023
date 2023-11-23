@@ -202,7 +202,7 @@ public class Player : MonoBehaviour
         transform.localScale += new Vector3(calorias, 0, 0);
         speedPercentage -= calorias;
         dashForce -= calorias * 20;
-        currentLife--;
+        currentLife -= 10;
     }
     
     public void ReceberDano(float dano)

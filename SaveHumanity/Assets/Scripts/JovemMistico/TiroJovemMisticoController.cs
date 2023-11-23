@@ -6,7 +6,7 @@ using static System.Net.WebRequestMethods;
 public class TiroJovemMistico  : MonoBehaviour
 {
     private GameObject Player;
-    private float Velocidade = 8f, Dano = 2f, PeriodoPerseguicao = 1.2f, TempoVivo = 0f;
+    private float Velocidade = 8f, Dano = 20f, PeriodoPerseguicao = 0.7f, TempoVivo = 0f;
 
     public void Ativar(GameObject player, Transform origem)
     {
