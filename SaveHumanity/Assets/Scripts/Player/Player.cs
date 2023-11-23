@@ -38,10 +38,9 @@ public class Player : MonoBehaviour
 
 
     [Header("Components")]
-    //private Animator anim;
+    private Animator anim;
     private SpriteRenderer sprite;
     private Rigidbody2D rig;
-    //private TrailRenderer tr;
 
     
     #region "INITIAL SETTINGS / UPDATE"
@@ -50,6 +49,7 @@ public class Player : MonoBehaviour
     {
         rig = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
 
         originalGravity = rig.gravityScale;
         currentLife = fullLife;
@@ -98,6 +98,12 @@ public class Player : MonoBehaviour
             sprite.flipX = true;
 
         rig.velocity = new Vector2(dirX * velocity * speedPercentage, rig.velocity.y);
+
+        if (rig.velocity.x != 0)
+            anim.SetBool("isRunning", true);
+        else
+            anim.SetBool("isRunning", false);
+
     }
 
     #endregion
