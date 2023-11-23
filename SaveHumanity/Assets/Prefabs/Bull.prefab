@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2126129716027540786}
   m_Layer: 0
   m_Name: Bull
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,4 +144,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Velocidade: 30
-  Dano: 40
+  Dano: 30

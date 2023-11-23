@@ -5,7 +5,7 @@ using UnityEngine;
 public class JovemMisticoController : MonoBehaviour
 {
     private float IntervaloTiroMinimo = 4f, IntervaloTiroMaximo = 6f, UltimoTiro;
-    private float IntervaloAtaqueMinimo = 2f, IntervaloAtaqueMaximo = 4f, UltimoAtaque;
+    private float IntervaloAtaqueMinimo = 1f, IntervaloAtaqueMaximo = 2f, UltimoAtaque;
     public GameObject TiroPrefab, TouroSigno, TouroPrefab, AquarioSigno, AquarioPrefab, CancerSigno, CancerPrefab, Player;
     public GameObject SpawnerSigno, SpawnerTouroE, SpawnerTouroD, SpawnerAquarioE, SpawnerAquarioD, SpawnerCancerE, SpawnerCancerD;
 

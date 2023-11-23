@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
@@ -30,6 +33,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float fullLife; 
     [SerializeField] private float currentLife; 
     [SerializeField] private float speedPercentage = 1f;
+    [SerializeField] private TMP_Text VidaUI;
 
     [Header("Shot Properties")]
     [SerializeField] private bool canShoot = true;
@@ -78,9 +82,11 @@ public class Player : MonoBehaviour
             rig.gravityScale = 0;
         }
         
+        VidaUI.text = "x" + currentLife.ToString();
+
         if(currentLife <= 0f)
         {
-            Debug.Break();
+            
         }
     }
 
@@ -122,7 +128,7 @@ public class Player : MonoBehaviour
 
     #endregion
     
-    #region "DASH AND DASH"
+    #region "DASH AND BOUNCE"
 
     private IEnumerator Dash()
     {
@@ -169,7 +175,7 @@ public class Player : MonoBehaviour
             isJumping = false;
             //anim.SetBool("DoubleJump", false);
         }
-        else if(collision.gameObject.CompareTag("Enemy"))
+        else if(collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Boss"))
         {
             //ADD BOUNCE
 
@@ -182,6 +188,19 @@ public class Player : MonoBehaviour
 
 
             //rig.AddForce(dir * bounceFactor, ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Enemy"))
+        {
+            float dirX = collision.transform.position.x - transform.position.x;
+            float dirY = collision.transform.position.y - transform.position.y;
+
+            Vector2 dir = -new Vector2(dirX, dirY).normalized;
+
+            StartCoroutine(Bounce(dir));
         }
     }
 
@@ -237,6 +256,21 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(coolDown);
 
         canShoot = true;
+    }
+
+    #endregion
+
+    #region "Anti-Bug"
+
+    private void OnBecameInvisible()
+    {
+        StartCoroutine(WaitAndTeleport());
+    }
+
+    IEnumerator WaitAndTeleport()
+    {
+        yield return new WaitForSeconds(1.5f);
+        transform.position = new Vector3(0, 0, 0);
     }
 
     #endregion
