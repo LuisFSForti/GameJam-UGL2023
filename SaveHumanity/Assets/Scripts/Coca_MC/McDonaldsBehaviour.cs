@@ -158,7 +158,7 @@ public class McDonaldsBehaviour : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Player>().ReceberDano(10);
+            collision.gameObject.GetComponent<Player>().ReceberDano(2);
         }
     }
 }
