@@ -8,6 +8,12 @@ public class ChangeScene : MonoBehaviour
     public GameObject Player, Canvas;
     private bool Chefao = false;
 
+    private void Start()
+    {
+        if (GameObject.FindGameObjectsWithTag("Boss").Length != 0)
+            Chefao = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -16,7 +22,7 @@ public class ChangeScene : MonoBehaviour
             AvancarCena();
         }
 
-        if(Chefao)
+        if (Chefao)
         {
             if (GameObject.FindGameObjectsWithTag("Boss").Length == 0)
                 AvancarCena();
@@ -32,7 +38,7 @@ public class ChangeScene : MonoBehaviour
 
     private void ChangedActiveScene(Scene current, Scene next)
     {
-        if(next.buildIndex % 2 == 1 || next.buildIndex == 2)
+        if(next.buildIndex % 2 == 0 && next.buildIndex >= 3)
         {
             if(Player != null) {
                 Player.SetActive(false);

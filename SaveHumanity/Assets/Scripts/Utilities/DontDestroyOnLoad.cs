@@ -12,7 +12,7 @@ public class DontDestroyOnLoad : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1)
+        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCountInBuildSettings - 2)
             Destroy(gameObject);
     }
 }
