@@ -52,4 +52,9 @@ public class ChangeScene : MonoBehaviour
         if (Player != null)
             Player.transform.position = Vector3.zero;
     }
+
+    public void Reiniciar()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

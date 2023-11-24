@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Scripting.APIUpdating;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -86,7 +87,7 @@ public class Player : MonoBehaviour
 
         if(currentLife <= 0f)
         {
-            
+            SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
     }
 
