@@ -89,13 +89,21 @@ public class Player : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
+
+        //Garantir que a bola de fogo vai reiniciar ao trocar a tela
+        SceneManager.activeSceneChanged += ChangedActiveScene;
+    }
+
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        canShoot = true;
     }
 
     #endregion
 
     #region "WALK"
 
-    private void Move()
+        private void Move()
     {
         float dirX = Input.GetAxisRaw("Horizontal");
        

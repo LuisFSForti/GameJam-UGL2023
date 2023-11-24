@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Boss_Coca_MC.unity
     guid: efd54a77dbf97c74086aadb856943de5
   - enabled: 1
+    path: Assets/Scenes/TelaVitoria.unity
+    guid: aefea7fd26830524386e4a6f8da780cf
+  - enabled: 1
     path: Assets/Scenes/TelaMorte.unity
     guid: 3ddeb7aa76a63cb42857edf2e5fe7da8
   m_configObjects: {}
