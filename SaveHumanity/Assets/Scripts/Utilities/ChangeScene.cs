@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class ChangeScene : MonoBehaviour
 {
@@ -17,11 +18,6 @@ public class ChangeScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            AvancarCena();
-        }
-
         if (Chefao)
         {
             if (GameObject.FindGameObjectsWithTag("Boss").Length == 0)
