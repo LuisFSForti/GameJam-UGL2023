@@ -779,7 +779,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda05f9b6c27d4041941e0099229ca04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Vida: 20
+  VidaMax: 12
+  Vida: 12
   Regeneracao: 0
 --- !u!1 &590154489
 GameObject:
@@ -2377,8 +2378,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda05f9b6c27d4041941e0099229ca04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Vida: 30
-  Regeneracao: 0.5
+  VidaMax: 20
+  Vida: 20
+  Regeneracao: 0.05
 --- !u!1 &1948916287
 GameObject:
   m_ObjectHideFlags: 0
