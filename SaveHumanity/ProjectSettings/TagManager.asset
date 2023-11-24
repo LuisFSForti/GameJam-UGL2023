@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - PlayerShot
   - Boss
+  - Limit
   layers:
   - Default
   - TransparentFX

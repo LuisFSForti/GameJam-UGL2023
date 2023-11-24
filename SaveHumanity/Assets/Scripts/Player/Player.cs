@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float fullLife; 
     [SerializeField] private float currentLife; 
     [SerializeField] private float speedPercentage = 1f;
+    [SerializeField] private float immortalCoolDown = 1f;
+
+    private bool immortal;
 
     [Header("Shot Properties")]
     [SerializeField] private bool canShoot = true;
@@ -42,7 +45,6 @@ public class Player : MonoBehaviour
     private SpriteRenderer sprite;
     private Rigidbody2D rig;
 
-    
     #region "INITIAL SETTINGS / UPDATE"
 
     private void Start()
@@ -167,7 +169,6 @@ public class Player : MonoBehaviour
         {
             qtdeJump = 0;
             isJumping = false;
-            //anim.SetBool("DoubleJump", false);
         }
         else if(collision.gameObject.CompareTag("Enemy"))
         {
@@ -179,9 +180,6 @@ public class Player : MonoBehaviour
             Vector2 dir = - new Vector2(dirX, dirY).normalized;
 
             StartCoroutine(Bounce(dir));
-
-
-            //rig.AddForce(dir * bounceFactor, ForceMode2D.Impulse);
         }
     }
 
@@ -196,7 +194,7 @@ public class Player : MonoBehaviour
     #endregion
 
     #region "STATUS"
-    
+
     public void Engordar(float calorias)
     {
         transform.localScale += new Vector3(calorias, 0, 0);
@@ -207,7 +205,23 @@ public class Player : MonoBehaviour
     
     public void ReceberDano(float dano)
     {
+        if (immortal)
+            return;
+
         currentLife -= dano;
+        StartCoroutine(Damage());
+        
+    }
+
+    private IEnumerator Damage()
+    {
+        immortal = true;
+        anim.SetBool("Damage", true);
+
+        yield return new WaitForSeconds(immortalCoolDown);
+
+        anim.SetBool("Damage", true);
+        immortal = false;
     }
   
     public void ChangeSpeed(float speedFactor)

@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [Header("Flow Game Properties")]
     [HideInInspector] public bool isPaused;
 
+    [Header("Playe Reference")]
+    public Player player;
+
 
     #region "INITIAL SETTINGS / UPDATE"
     private void Awake()
